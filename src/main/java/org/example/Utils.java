@@ -3,6 +3,7 @@ package org.example;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Utils {
@@ -13,49 +14,50 @@ public class Utils {
         return userInput.toUpperCase().charAt(0);
     }
 
-    public static String getStringPrompt(String prompt){
+    public static String getStringInput(String prompt) {
         System.out.println(prompt);
         return scanner.nextLine();
     }
 
-    public static LocalDate getDate(String prompt){
-        while (true){
+    public static double getDoubleInput(String prompt) {
+        System.out.println(prompt);
+        return scanner.nextDouble();
+    }
+
+    public static LocalDate getDate(String prompt) {
+        while (true) {
             System.out.println(prompt);
-            String userInput = scanner.nextLine();
+            String userInput = scanner.nextLine().trim();
 
             if (userInput.isEmpty()) {
                 return LocalDate.now();
             }
 
-            if(!userInput.contains("-")){
-                System.out.println("Please try again. It's incorrect");
-            } else {
-                try {
-                    return LocalDate.parse(userInput);
-                } catch (DateTimeException e){
-                    System.out.println("Invalid date format. Please try again");
-                }
+            try {
+                return LocalDate.parse(userInput);
+            } catch (DateTimeException e) {
+                System.out.println("Invalid date format. Please try again");
             }
         }
     }
 
-    public static LocalTime getTime(String prompt){
-        while (true){
+    static DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+    public static LocalTime getTime(String prompt) {
+        while (true) {
             System.out.println(prompt);
-            String userInput = scanner.nextLine();
+            String userInput = scanner.nextLine().trim();
 
             if (userInput.isEmpty()) {
-                return LocalTime.now();
+                LocalTime now = LocalTime.now();
+                String newNow = now.format(format);
+                return LocalTime.parse(newNow, format);
             }
 
-            if(!userInput.contains(":")){
-                System.out.println("Please try again. It's incorrect");
-            } else {
-                try {
-                    return LocalTime.parse(userInput);
-                } catch (Exception e ){
-                    System.out.println("Invalid date format. Please try again");
-                }
+            try {
+                return LocalTime.parse(userInput, format);
+            } catch (DateTimeException e) {
+                System.out.println("Invalid date format. Please try again");
             }
         }
     }
