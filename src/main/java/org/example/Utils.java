@@ -6,8 +6,7 @@ public class Utils {
     static Scanner scanner = new Scanner(System.in);
 
     public static char getCharInput() {
-        String userInput = scanner.next();
-        scanner.nextLine();
+        String userInput = scanner.nextLine();
         return userInput.toUpperCase().charAt(0);
     }
 
