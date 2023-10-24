@@ -25,7 +25,6 @@ public class LedgerUI {
                 // Ledger ledger = new Ledger(LocalDate.parse(data[0]), LocalTime.parse(data[1]), data[2], data[3], Double.parseDouble(data[4]));
                 Transaction transaction = new Transaction(LocalDate.parse(data[0]), LocalTime.parse(data[1]), data[2], data[3], Double.parseDouble(data[4]));
                 transactions.add(transaction);
-                System.out.println(transactions);
             }
 
         } catch (FileNotFoundException e) {
@@ -39,8 +38,8 @@ public class LedgerUI {
     public static ArrayList<Transaction> transactions = getTransactions();
 
     public static void ledgerMenu() {
-        boolean done = false;
-        while (!done) {
+        boolean data;
+        while (true) {
             System.out.println("LEDGER MENU");
             System.out.println("A) Display all entries \nD) Display deposits \nP) Display payments \nR) Go to Reports \nH) Return Home");
             char input = Utils.getCharInput();
@@ -52,45 +51,115 @@ public class LedgerUI {
                     break;
                 case 'D':
                     for (Transaction transaction : transactions) {
-                        System.out.println(transaction.getInputAmount());
+                        data = transaction.getInputAmount() > 0;
+
+                        if (data) {
+                            System.out.println(transaction.getInputAmount());
+                        }
                     }
                     break;
                 case 'P':
                     for (Transaction transaction : transactions) {
-                        System.out.println(transaction.getInputAmount() < 0);
+                        data = transaction.getInputAmount() < 0;
+
+                        if (data) {
+                            System.out.println(transaction.getInputAmount());
+                        }
                     }
                     break;
                 case 'R':
-                    ReportsMenu();
+                    reportsMenu();
                 case 'H':
                     return;
             }
-            done = true;
         }
     }
 
-    public static void ReportsMenu() {
-        boolean done = false;
-        while (!done) {
+    public static void reportsMenu() {
+        int date;
+        int date2;
+        while (true) {
             System.out.println("REPORTS MENU");
-            System.out.println("1) Month To Date  \nD) Previous Month \nP) Year To Date \nR) Previous Year \nH) Search By Vendor");
-            char input = Utils.getCharInput();
+            System.out.println("1) Month To Date  \n2) Previous Month \n3) Year To Date \n4) Previous Year \n5) Search By Vendor");
             LocalDate now = LocalDate.now();
+            char input = Utils.getCharInput();
             switch (input) {
-                case 'A':
-                    for(Transaction transaction : transactions){
-                        System.out.println(transaction.dateInput().getMonth());
+                case '1':
+                    for (Transaction transaction : transactions) {
+                        date = transaction.getDateInput().getMonthValue();
+                        date2 = now.getMonthValue();
+                        // Compare it? date == date2
+                        if (date == date2) {
+                            System.out.printf("%-15s %-15s %-30s %-25s %15.2f\n",
+                                    transaction.getDateInput(),
+                                    transaction.getTimeInput(),
+                                    transaction.getInputDescription(),
+                                    transaction.getInputVendor(),
+                                    transaction.getInputAmount());
+                        }
                     }
-                case 'D':
-
-                case 'P':
-
-                case 'R':
-
-                case 'H':
-
+                    break;
+                case '2':
+                    for (Transaction transaction : transactions) {
+                        date = transaction.getDateInput().getMonthValue();
+                        date2 = now.minusMonths(1).getMonthValue();
+                        // Compare it? date == date2
+                        if (date == date2) {
+                            System.out.printf("%-15s %-15s %-30s %-25s %15.2f\n",
+                                    transaction.getDateInput(),
+                                    transaction.getTimeInput(),
+                                    transaction.getInputDescription(),
+                                    transaction.getInputVendor(),
+                                    transaction.getInputAmount());
+                        }
+                    }
+                    break;
+                case '3':
+                    for (Transaction transaction : transactions) {
+                        date = transaction.getDateInput().getYear();
+                        date2 = now.getYear();
+                        if (date == date2) {
+                            System.out.printf("%-15s %-15s %-30s %-25s %15.2f\n",
+                                    transaction.getDateInput(),
+                                    transaction.getTimeInput(),
+                                    transaction.getInputDescription(),
+                                    transaction.getInputVendor(),
+                                    transaction.getInputAmount());
+                        }
+                    }
+                    break;
+                case '4':
+                    for (Transaction transaction : transactions) {
+                        date = transaction.getDateInput().getYear();
+                        date2 = now.minusYears(1).getYear();
+                        // Compare it? date == date2
+                        if (date == date2) {
+                            System.out.printf("%-15s %-15s %-30s %-25s %15.2f\n",
+                                    transaction.getDateInput(),
+                                    transaction.getTimeInput(),
+                                    transaction.getInputDescription(),
+                                    transaction.getInputVendor(),
+                                    transaction.getInputAmount());
+                        }
+                    }
+                    break;
+                case '5':
+                    String inputVendor = Utils.getStringInput("Enter Vendor Name: ");
+                    for (Transaction transaction : transactions
+                    ) {
+                        if(transaction.inputVendor().contains(inputVendor)){
+                            System.out.printf("%-15s %-15s %-30s %-25s %15.2f\n",
+                                    transaction.getDateInput(),
+                                    transaction.getTimeInput(),
+                                    transaction.getInputDescription(),
+                                    transaction.getInputVendor(),
+                                    transaction.getInputAmount());
+                        }
+                    }
+                    break;
+                case '6':
+                    // Custom Search
             }
-            done = true;
         }
     }
 }
