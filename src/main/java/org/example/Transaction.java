@@ -19,4 +19,14 @@ public record Transaction(LocalDate dateInput, LocalTime timeInput, String input
     public double getInputAmount(){
         return inputAmount;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%-15s %-15s %-30s %-25s %15.2f",
+                dateInput,
+                timeInput,
+                inputDescription,
+                inputVendor,
+                inputAmount);
+    }
 }
