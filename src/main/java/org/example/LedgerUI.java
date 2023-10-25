@@ -54,7 +54,7 @@ public class LedgerUI {
                         data = transaction.getInputAmount() > 0;
 
                         if (data) {
-                            System.out.println(transaction.getInputAmount());
+                            System.out.println(transaction);
                         }
                     }
                     break;
@@ -63,14 +63,14 @@ public class LedgerUI {
                         data = transaction.getInputAmount() < 0;
 
                         if (data) {
-                            System.out.println(transaction.getInputAmount());
+                            System.out.println(transaction);
                         }
                     }
                     break;
                 case 'R':
                     reportsMenu();
                 case 'H':
-                    return;
+                    Main.homeMenu();
             }
         }
     }
@@ -78,6 +78,8 @@ public class LedgerUI {
     public static void reportsMenu() {
         int date;
         int date2;
+        int year;
+        int year2;
         while (true) {
             System.out.println("REPORTS MENU");
             System.out.println("1) Month To Date  \n2) Previous Month \n3) Year To Date \n4) Previous Year \n5) Search By Vendor");
@@ -88,14 +90,11 @@ public class LedgerUI {
                     for (Transaction transaction : transactions) {
                         date = transaction.getDateInput().getMonthValue();
                         date2 = now.getMonthValue();
+                        year = transaction.getDateInput().getYear();
+                        year2 = now.getYear();
                         // Compare it? date == date2
-                        if (date == date2) {
-                            System.out.printf("%-15s %-15s %-30s %-25s %15.2f\n",
-                                    transaction.getDateInput(),
-                                    transaction.getTimeInput(),
-                                    transaction.getInputDescription(),
-                                    transaction.getInputVendor(),
-                                    transaction.getInputAmount());
+                        if (date == date2 && year == year2) {
+                            System.out.println(transaction);
                         }
                     }
                     break;
@@ -103,14 +102,11 @@ public class LedgerUI {
                     for (Transaction transaction : transactions) {
                         date = transaction.getDateInput().getMonthValue();
                         date2 = now.minusMonths(1).getMonthValue();
+                        year = transaction.getDateInput().getYear();
+                        year2 = now.getYear();
                         // Compare it? date == date2
-                        if (date == date2) {
-                            System.out.printf("%-15s %-15s %-30s %-25s %15.2f\n",
-                                    transaction.getDateInput(),
-                                    transaction.getTimeInput(),
-                                    transaction.getInputDescription(),
-                                    transaction.getInputVendor(),
-                                    transaction.getInputAmount());
+                        if (date == date2 && year == year2) {
+                            System.out.println(transaction);
                         }
                     }
                     break;
@@ -119,12 +115,7 @@ public class LedgerUI {
                         date = transaction.getDateInput().getYear();
                         date2 = now.getYear();
                         if (date == date2) {
-                            System.out.printf("%-15s %-15s %-30s %-25s %15.2f\n",
-                                    transaction.getDateInput(),
-                                    transaction.getTimeInput(),
-                                    transaction.getInputDescription(),
-                                    transaction.getInputVendor(),
-                                    transaction.getInputAmount());
+                            System.out.println(transaction);
                         }
                     }
                     break;
@@ -134,12 +125,7 @@ public class LedgerUI {
                         date2 = now.minusYears(1).getYear();
                         // Compare it? date == date2
                         if (date == date2) {
-                            System.out.printf("%-15s %-15s %-30s %-25s %15.2f\n",
-                                    transaction.getDateInput(),
-                                    transaction.getTimeInput(),
-                                    transaction.getInputDescription(),
-                                    transaction.getInputVendor(),
-                                    transaction.getInputAmount());
+                            System.out.println(transaction);
                         }
                     }
                     break;
@@ -148,12 +134,7 @@ public class LedgerUI {
                     for (Transaction transaction : transactions
                     ) {
                         if(transaction.inputVendor().contains(inputVendor)){
-                            System.out.printf("%-15s %-15s %-30s %-25s %15.2f\n",
-                                    transaction.getDateInput(),
-                                    transaction.getTimeInput(),
-                                    transaction.getInputDescription(),
-                                    transaction.getInputVendor(),
-                                    transaction.getInputAmount());
+                            System.out.println(transaction);
                         }
                     }
                     break;
