@@ -9,8 +9,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class LedgerUI {
-//    public static Scanner scanner = new Scanner(System.in);
-
     public static ArrayList<Transaction> getTransactions() {
         ArrayList<Transaction> transactions = new ArrayList<>();
         try {
@@ -26,7 +24,9 @@ public class LedgerUI {
                 transactions.add(transaction);
             }
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            System.out.println("File not found!");
+//            System.exit(0);
+            System.out.println("Would you like to create a file?");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -148,7 +148,21 @@ public class LedgerUI {
                 case '6':
                     // Custom Search
                     System.out.println("Custom Search: ");
-                    LocalDate dateInput = Utils.getDate("Enter a date");
+                    LocalDate startDate = Utils.getDate("Enter a start date in (YYYY-MM-DD) or type enter for automatic");
+                    LocalDate endDate = Utils.getDate("Enter a end date in (YYYY-MM-DD) or type enter for automatic");
+//                    String description = Utils.getStringInput("Enter a description");
+//                    String vendor = Utils.getStringInput("Enter a vendor: ");
+//                    double amount = Utils.getDoubleInput("Enter an amount: ");
+
+                    System.out.println("Here is your custom search: ");
+                    for (Transaction transaction: transactions
+                         ) {
+                        boolean isStartDate = !transaction.getDateInput().isBefore(startDate);
+                        boolean isEndDate = !transaction.getDateInput().isAfter(endDate);
+                        if(isStartDate && isEndDate){
+                            System.out.println(transaction);
+                        }
+                    }
                 case '7':
                     return;
             }
