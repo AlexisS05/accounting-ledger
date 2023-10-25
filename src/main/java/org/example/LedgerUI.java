@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class LedgerUI {
 //    public static Scanner scanner = new Scanner(System.in);
@@ -26,7 +25,6 @@ public class LedgerUI {
                 Transaction transaction = new Transaction(LocalDate.parse(data[0]), LocalTime.parse(data[1]), data[2], data[3], Double.parseDouble(data[4]));
                 transactions.add(transaction);
             }
-
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -69,8 +67,11 @@ public class LedgerUI {
                     break;
                 case 'R':
                     reportsMenu();
+                    break;
                 case 'H':
-                    Main.homeMenu();
+                    return;
+                default:
+                    System.out.println("This is not a valid option. Please try again.");
             }
         }
     }
@@ -82,7 +83,7 @@ public class LedgerUI {
         int year2;
         while (true) {
             System.out.println("REPORTS MENU");
-            System.out.println("1) Month To Date  \n2) Previous Month \n3) Year To Date \n4) Previous Year \n5) Search By Vendor");
+            System.out.println("1) Month To Date  \n2) Previous Month \n3) Year To Date \n4) Previous Year \n5) Search By Vendor \n6) Custom Search \n7) Return to Ledger");
             LocalDate now = LocalDate.now();
             char input = Utils.getCharInput();
             switch (input) {
@@ -140,6 +141,10 @@ public class LedgerUI {
                     break;
                 case '6':
                     // Custom Search
+                    System.out.println("Custom Search: ");
+                    LocalDate dateInput = Utils.getDate("Enter a date");
+                case '7':
+                    return;
             }
         }
     }
