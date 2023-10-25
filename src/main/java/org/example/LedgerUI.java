@@ -36,34 +36,19 @@ public class LedgerUI {
     public static ArrayList<Transaction> transactions = getTransactions();
 
     public static void ledgerMenu() {
-        boolean data;
         while (true) {
             System.out.println("LEDGER MENU");
             System.out.println("A) Display all entries \nD) Display deposits \nP) Display payments \nR) Go to Reports \nH) Return Home");
             char input = Utils.getCharInput();
             switch (input) {
                 case 'A':
-                    for (Transaction transaction : transactions) {
-                        System.out.println(transaction);
-                    }
+                    displayEntries("Entries");
                     break;
                 case 'D':
-                    for (Transaction transaction : transactions) {
-                        data = transaction.getInputAmount() > 0;
-
-                        if (data) {
-                            System.out.println(transaction);
-                        }
-                    }
+                    displayEntries("Deposits");
                     break;
                 case 'P':
-                    for (Transaction transaction : transactions) {
-                        data = transaction.getInputAmount() < 0;
-
-                        if (data) {
-                            System.out.println(transaction);
-                        }
-                    }
+                    displayEntries("Payments");
                     break;
                 case 'R':
                     reportsMenu();
@@ -72,6 +57,27 @@ public class LedgerUI {
                     return;
                 default:
                     System.out.println("This is not a valid option. Please try again.");
+            }
+        }
+    }
+
+    public static void displayEntries(String filter) {
+        boolean data; // Always true to show data
+        for (Transaction transaction : transactions) {
+            if (filter.equals("Entries")) {
+                System.out.println(transaction);
+            } else if (filter.equals("Deposits")){
+                data = transaction.getInputAmount() > 0;
+
+                if (data) {
+                    System.out.println(transaction);
+                }
+            } else if (filter.equals("Payments")) {
+                data = transaction.getInputAmount() < 0;
+
+                if (data) {
+                    System.out.println(transaction);
+                }
             }
         }
     }
@@ -134,7 +140,7 @@ public class LedgerUI {
                     String inputVendor = Utils.getStringInput("Enter Vendor Name: ");
                     for (Transaction transaction : transactions
                     ) {
-                        if(transaction.inputVendor().contains(inputVendor)){
+                        if (transaction.inputVendor().contains(inputVendor)) {
                             System.out.println(transaction);
                         }
                     }
