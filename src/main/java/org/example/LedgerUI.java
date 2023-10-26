@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class LedgerUI {
     public static ArrayList<Transaction> getTransactions() {
@@ -19,17 +20,20 @@ public class LedgerUI {
             while ((input = bufReader.readLine()) != null) {
                 String[] data = input.split("\\|");
 
-                // Ledger ledger = new Ledger(LocalDate.parse(data[0]), LocalTime.parse(data[1]), data[2], data[3], Double.parseDouble(data[4]));
                 Transaction transaction = new Transaction(LocalDate.parse(data[0]), LocalTime.parse(data[1]), data[2], data[3], Double.parseDouble(data[4]));
                 transactions.add(transaction);
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
-//            System.exit(0);
-            System.out.println("Would you like to create a file?");
+            Utils.createDefaultCSV();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        // Sort our transactions ArrayList in ascending order before returning it
+        Comparator<Transaction> compareByDate = Comparator.comparing(Transaction::getDateInput).reversed();
+        Comparator<Transaction> compareByTime = Comparator.comparing(Transaction::getTimeInput).reversed();
+        transactions.sort(compareByDate.thenComparing(compareByTime));
+
         return transactions;
     }
 
