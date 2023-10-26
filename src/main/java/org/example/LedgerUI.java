@@ -178,17 +178,23 @@ public class LedgerUI {
         String amountString = Utils.getStringInput("Enter an amount: "); // Evaluate input to String for isEmpty
         double amount = amountString.isEmpty() ? 0 : Double.parseDouble(amountString); // Evaluate if amount is Empty.
 
+        boolean ifFound = false; // Evaluate if there will be a result
+
         System.out.println("Here is your custom search: ");
         for (Transaction transaction : transactions
         ) {
             boolean isStartDate = startDate == null || !transaction.getDateInput().isBefore(startDate); // Evaluates transaction date is not before the startDate or if date is null
             boolean isEndDate = endDate == null || !transaction.getDateInput().isAfter(endDate); // Evaluates transactions date is not after the endDate or if date is null
-            boolean isDescription = transaction.getDescription().contains(description);
-            boolean isVendor = transaction.getVendor().contains(vendor);
+            boolean isDescription = transaction.getDescription().toLowerCase().contains(description);
+            boolean isVendor = transaction.getVendor().toLowerCase().contains(vendor);
             boolean isAmount = transaction.getAmount() == amount || amount == 0;
             if (isStartDate && isEndDate && isDescription && isVendor && isAmount) {
                 printTransaction(transaction);
+                ifFound = true;
             }
+        }
+        if(!ifFound){
+            System.out.println("We couldn't find that. Sorry.");
         }
     }
 
