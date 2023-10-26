@@ -4,29 +4,20 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public record Transaction(LocalDate dateInput, LocalTime timeInput, String inputDescription, String inputVendor, double inputAmount) {
-    public LocalDate getDateInput(){
+    public LocalDate getDate(){
         return dateInput;
     }
-    public LocalTime getTimeInput(){
+    public LocalTime getTime(){
         return timeInput;
     }
-    public String getInputDescription(){
+    public String getDescription(){
         return inputDescription;
     }
-    public String getInputVendor(){
+    public String getVendor(){
         return inputVendor;
     }
-    public double getInputAmount(){
+    public double getAmount(){
         return inputAmount;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%-15s %-15s %-30s %-25s %15.2f",
-                dateInput,
-                timeInput,
-                inputDescription,
-                inputVendor,
-                inputAmount);
-    }
 }
