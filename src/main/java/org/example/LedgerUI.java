@@ -148,21 +148,26 @@ public class LedgerUI {
                 case '6':
                     // Custom Search
                     System.out.println("Custom Search: ");
-                    LocalDate startDate = Utils.getDate("Enter a start date in (YYYY-MM-DD) or type enter for automatic");
-                    LocalDate endDate = Utils.getDate("Enter a end date in (YYYY-MM-DD) or type enter for automatic");
-//                    String description = Utils.getStringInput("Enter a description");
-//                    String vendor = Utils.getStringInput("Enter a vendor: ");
-//                    double amount = Utils.getDoubleInput("Enter an amount: ");
+                    LocalDate startDate = Utils.getDateCustom("Enter a start date in (YYYY-MM-DD) or leave blank");
+                    LocalDate endDate = Utils.getDateCustom("Enter a end date in (YYYY-MM-DD) or leave blank");
+                    String description = Utils.getStringInput("Enter a description: ").toLowerCase();
+                    String vendor = Utils.getStringInput("Enter a vendor: ").toLowerCase();
+                    String amountString = Utils.getStringInput("Enter an amount: "); // Evaluate input to String for isEmpty
+                    double amount = amountString.isEmpty() ? 0 : Double.parseDouble(amountString); // Evaluate if amount is Empty.
 
                     System.out.println("Here is your custom search: ");
                     for (Transaction transaction: transactions
                          ) {
-                        boolean isStartDate = !transaction.getDateInput().isBefore(startDate);
-                        boolean isEndDate = !transaction.getDateInput().isAfter(endDate);
-                        if(isStartDate && isEndDate){
+                        boolean isStartDate = startDate == null || !transaction.getDateInput().isBefore(startDate); // Evaluates transaction date is not before the startDate or if date is null
+                        boolean isEndDate = endDate == null || !transaction.getDateInput().isAfter(endDate); // Evaluates transactions date is not after the endDate or if date is null
+                        boolean isDescription = transaction.getInputDescription().contains(description);
+                        boolean isVendor = transaction.getInputVendor().contains(vendor);
+                        boolean isAmount = transaction.getInputAmount() == amount || amount == 0;
+                        if(isStartDate && isEndDate && isDescription && isVendor && isAmount){
                             System.out.println(transaction);
                         }
                     }
+                    break;
                 case '7':
                     return;
             }
