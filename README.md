@@ -20,3 +20,7 @@ and run various financial reports to see how much you have!
 
 ![CustomResult](https://github.com/AlexisS05/accounting-ledger/assets/57822868/210219bd-441f-4887-9212-d2a7f7124add)
 
+# Interesting piece of code.
+This function right here. Mainly the boolean value. Setting it to true helped decide what to print because whatever is true should always print. If anything doesn't pass the condition then it basically ignores. The logical operators && helped alot even with the custom search.
+
+![Piece of Code](https://github.com/AlexisS05/accounting-ledger/assets/57822868/c23f2ea1-b38f-4a48-bcd5-22b92102a30f)
