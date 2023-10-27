@@ -7,7 +7,9 @@ import static org.example.LedgerUI.*;
 public class Reports {
     public static void reportsMenu() {
         while (true) {
-            System.out.println("REPORTS MENU");
+            System.out.print("\u001B[31m");
+            System.out.printf("%20s\n", "REPORTS MENU");
+            System.out.print("\u001B[0m");
             System.out.println("1) Month To Date  \n2) Previous Month \n3) Year To Date \n4) Previous Year \n5) Search By Vendor \n6) Custom Search \n7) Return to Ledger");
             String vendor = "";
             char input = Utils.getCharInput();
@@ -101,11 +103,14 @@ public class Reports {
         String amountString = Utils.getStringInput("Enter an amount: "); // Evaluate input to String for isEmpty
         double amount = amountString.isEmpty() ? 0 : Double.parseDouble(amountString); // Evaluate if amount is Empty.
 
+
+        System.out.print("\u001B[31m");
+        System.out.printf("%40s\n", "CUSTOM SEARCH RESULT");
+        System.out.print("\u001B[0m");
         printTransactionTitle();
 
         boolean ifFound = false; // Evaluate if there will be a result
 
-        System.out.println("Here is your custom search: ");
         for (Transaction transaction : transactions
         ) {
             boolean isStartDate = startDate == null || !transaction.getDate().isBefore(startDate); // Evaluates transaction date is not before the startDate or if date is null
