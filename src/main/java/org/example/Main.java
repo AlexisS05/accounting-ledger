@@ -1,19 +1,25 @@
 package org.example;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Main {
+
     public static void main(String[] args) {
+        Utils.createDefaultCSV("transactions.csv");
         System.out.println("Welcome to the Accounting Ledger!");
         homeMenu();
     }
 
     public static void homeMenu(){
         while (true) {
-            System.out.println("HOME MENU");
+            System.out.print("\u001B[31m");
+            System.out.printf("%20s\n", "HOME MENU");
+            System.out.print("\u001B[0m");
             System.out.println("Here is the list of commands you can do: \nD) Add Deposit \nP) Make Payment \nL) View the Ledger \nX) Exit the Ledger");
             char userInput = Utils.getCharInput();
             switch (userInput) {
@@ -47,11 +53,15 @@ public class Main {
             formatAmount = "-" + formatAmount;
         }
 
-        try (FileWriter fileWriter = new FileWriter("transactions.csv", true)) {
-            fileWriter.write(String.format("\n%s|%s|%s|%s|%s",
+        writeToCSV("transactions.csv", dateInput, timeInput, inputDescription, inputVendor, formatAmount);
+        System.out.println(filter + " added successfully!");
+    }
+    public static void writeToCSV(String fileName, LocalDate dateInput, LocalTime timeInput, String inputDescription, String inputVendor, String formatAmount) {
+        try (FileWriter fileWriter = new FileWriter(fileName, true);
+             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+            bufferedWriter.write(String.format("\n%s|%s|%s|%s|%s",
                     dateInput, timeInput, inputDescription, inputVendor, formatAmount));
-            fileWriter.close();
-            System.out.println(filter + " added successfully!");
+            bufferedWriter.flush();
         } catch (IOException e) {
             System.out.println("Error adding data!");
         }
