@@ -29,12 +29,12 @@ public class LedgerUI {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        // Sort our transactions ArrayList in ascending order before returning it
+        // Sort our transactions ArrayList in latest to oldest
         Comparator<Transaction> compareByDate = Comparator.comparing(Transaction::getDate).reversed();
         Comparator<Transaction> compareByTime = Comparator.comparing(Transaction::getTime).reversed();
-        Comparator<Transaction> compareByDescription = Comparator.comparing(Transaction::getDescription).reversed();
-        transactions.sort(compareByDescription);
-        transactions.sort(compareByDate.thenComparing(compareByTime));
+//        Comparator<Transaction> compareByDescription = Comparator.comparing(Transaction::getDescription).reversed(); // Sort Alphabetically?
+//        transactions.sort(compareByDescription);
+        transactions.sort(compareByDate.thenComparing(compareByTime)); // List by date then time
 
         return transactions;
     }
