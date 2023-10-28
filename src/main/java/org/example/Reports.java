@@ -100,8 +100,8 @@ public class Reports {
         LocalDate endDate = Utils.getDateCustom("Enter a end date in (YYYY-MM-DD) or leave blank");
         String description = Utils.getStringInput("Enter a description: ").toLowerCase();
         String vendor = Utils.getStringInput("Enter a vendor: ").toLowerCase();
-        String amountString = Utils.getStringInput("Enter an amount: "); // Evaluate input to String for isEmpty
-        double amount = amountString.isEmpty() ? 0 : Double.parseDouble(amountString); // Evaluate if amount is Empty.
+        String amountString = Utils.getStringInputCustom("Enter an amount: "); // Evaluate input to String for isEmpty
+        double amount = Utils.parseAmount(amountString); // Evaluate if amount is Empty.
 
 
         System.out.print("\u001B[31m");
