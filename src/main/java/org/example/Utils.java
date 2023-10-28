@@ -18,24 +18,72 @@ public class Utils {
         }
     }
 
-    public static String getStringInput(String prompt) {
+    public static String getStringInputCustom(String prompt) { // For the amount entry
+        String input;
         System.out.println(prompt);
-        return scanner.nextLine();
+        input = scanner.nextLine();
+
+        // Prompts the user in custom search in case input is empty or non-numeric
+        while (!input.isEmpty() && !isNumeric(input)) {
+            System.out.println("Invalid input. Please enter a valid value: ");
+            input = scanner.nextLine();
+        }
+
+        return input;
     }
 
-    public static double getDoubleInput(String prompt) {
+    public static boolean isNumeric(String str) { // To evaluate in getStringInputCustom
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public static String getStringInput(String prompt) {
+        String input;
+        System.out.println(prompt);
+        input = scanner.nextLine();
+
+        // Prompts the user to enter only words and not numbers
+        while (!input.matches("^[a-zA-Z]+$")) {
+            System.out.println("Invalid input. Please enter a input: ");
+            input = scanner.nextLine();
+        }
+
+        return input;
+    }
+
+    public static double getDoubleInput(String amountString) { // For main
         while (true) {
-            System.out.println(prompt);
-            if (scanner.hasNextDouble()) {
-                double input = scanner.nextDouble();
-                scanner.nextLine();
-                return input;
+            if (amountString.isEmpty()) {
+                System.out.println("Amount cannot be empty. Please enter a valid numeric amount.");
+                amountString = Utils.getStringInputCustom("Enter an amount: ");
             } else {
-                System.out.println("Invalid input. Please enter a valid number.");
-                scanner.nextLine();
+                try {
+                    return Double.parseDouble(amountString);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a valid numeric amount.");
+                    amountString = Utils.getStringInputCustom("Enter an amount: ");
+                }
             }
         }
     }
+
+    public static double parseAmount(String amountString) { // Parse the amount from getStringInputCustom
+        if (amountString.isEmpty()) {
+            return 0;
+        } else {
+            try {
+                return Double.parseDouble(amountString);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid numeric amount.");
+                return parseAmount(Utils.getStringInputCustom("Enter an amount: "));
+            }
+        }
+    }
+
 
     public static LocalDate getDate(String prompt) {
         while (true) {
