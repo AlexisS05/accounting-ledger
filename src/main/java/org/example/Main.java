@@ -10,7 +10,7 @@ import java.time.LocalTime;
 public class Main {
 
     public static void main(String[] args) {
-        Utils.createDefaultCSV("transactions.csv");
+//        Utils.createDefaultCSV("transactions.csv");
         System.out.println("Welcome to the Accounting Ledger!");
         homeMenu();
     }
@@ -46,9 +46,10 @@ public class Main {
         LocalTime timeInput = Utils.getTime("Enter the time in (HH:mm:ss) or press enter for automatic");
         String inputDescription = Utils.getStringInput("Enter the description: ");
         String inputVendor = Utils.getStringInput("Enter the vendor: ");
-        double inputAmount = Utils.getDoubleInput("Enter the amount: ");
+        String amountString = Utils.getStringInputCustom("Enter an amount: "); // Evaluate input to String for isEmpty
+        double amount = Utils.getDoubleInput(amountString); // Evaluate if amount is Empty.
 
-        String formatAmount = String.format("%.2f", inputAmount);
+        String formatAmount = String.format("%.2f", amount);
         if (filter.equals("payment")) {
             formatAmount = "-" + formatAmount;
         }
@@ -61,7 +62,6 @@ public class Main {
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
             bufferedWriter.write(String.format("\n%s|%s|%s|%s|%s",
                     dateInput, timeInput, inputDescription, inputVendor, formatAmount));
-            bufferedWriter.flush();
         } catch (IOException e) {
             System.out.println("Error adding data!");
         }
